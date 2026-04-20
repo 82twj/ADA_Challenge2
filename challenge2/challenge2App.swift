@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct challenge2App: App {
+    @AppStorage("currentUserName") private var currentUserName = ""
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if currentUserName.isEmpty {
+                NicknameSetupView()
+            } else {
+                ContentView()
+            }
         }
     }
 }

@@ -26,8 +26,6 @@ struct ClubDetailView: View {
                 Spacer()
             }
             VStack(spacing: 10) {
-                Image(systemName: clubdata.imageName)
-                    .font(.system(size: 100))
                 Text(clubdata.clubName)
                     .font(.largeTitle)
                     .bold()
@@ -134,7 +132,6 @@ struct ClubDetailView: View {
                 clubOwner: "관리자",
                 maxMembers: 10,
                 members: ["유저1", "유저2"],
-                imageName: "person.3.fill"
             )
         )
     )

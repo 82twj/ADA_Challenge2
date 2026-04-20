@@ -9,5 +9,5 @@ struct Club: Identifiable {
     var clubOwner: String
     var maxMembers: Int
     var members: [String]
-    var imageName: String
+    var clubImage: Data?
 }
