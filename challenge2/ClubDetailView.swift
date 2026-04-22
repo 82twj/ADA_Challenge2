@@ -15,6 +15,7 @@ struct ClubDetailView: View {
     @State private var showAlert = false
     @State private var showDeleteAlert = false
     @State private var alertMessage = ""
+    @State private var alertDeleteMessage = ""
     
     @Environment(\.modelContext) private var modelcontext
     
@@ -106,25 +107,34 @@ struct ClubDetailView: View {
         .background(.gray.opacity(0.3))
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("모임 개설")
+                Text("모임 정보")
                     .foregroundStyle(.blue)
                     .font(.headline)
                     .bold()
             }
             ToolbarItem(placement: .destructiveAction) {
                 Button {
+                    if currentUserName == club.clubOwner {
+                        alertDeleteMessage = "모임을 삭제하시면 영구적으로 삭제되며, 복구가 불가능합니다. 정말 삭제하시겠습니까?"
+                    } else {
+                        alertDeleteMessage = "모임은 개설자 외에 삭제할 수 업습니다."
+                    }
                     showDeleteAlert = true
                 } label: {
                     Image(systemName: "trash")
                 }
                 .confirmationDialog("Delete Moment", isPresented: $showDeleteAlert) {
-                    Button("네, 삭제하겠습니다.", role: .destructive) {
-                        modelcontext.delete(club)
-                        try? modelcontext.save()
-                        dismiss()
+                    Button("확인하였습니다.", role: .destructive) {
+                        if currentUserName == club.clubOwner {
+                            modelcontext.delete(club)
+                            try? modelcontext.save()
+                            dismiss()
+                        } else {
+                            dismiss()
+                        }
                     }
                 } message: {
-                    Text("모임을 삭제하시면 영구적으로 삭제되며, 복구가 불가능합니다. 정말 삭제하시겠습니까?")
+                    Text(alertDeleteMessage)
                 }
             }
         }
