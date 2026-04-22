@@ -7,15 +7,17 @@
 
 import SwiftUI
 import PhotosUI
+import SwiftData
 
 
 struct AddClubView: View {
-    @Binding var clubdata: [Club]
     @AppStorage("currentUserName") private var currentUserName = ""
+    
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelcontext
+
     @State private var imageData: Data?
     @State private var newImage: PhotosPickerItem?
-    
     @State private var clubName = ""
     @State private var clubTime = ""
     @State private var clubPlace = ""
@@ -93,6 +95,14 @@ struct AddClubView: View {
                 .padding(.horizontal ,32)
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("모임 개설")
+                    .foregroundStyle(.blue)
+                    .font(.headline)
+                    .bold()
+            }
+        }
         .safeAreaInset(edge: .bottom, spacing: 0) {
             VStack(spacing: 16) {
                 Divider()
@@ -107,8 +117,6 @@ struct AddClubView: View {
                         alertMessage = "모든 항목을 입력해주세요."
                         showAlert = true
                     } else if let maxMemberCount = Int(maxMembers), maxMemberCount > 0 {
-                        alertMessage = "모임 개설이 완료되었습니다."
-                        showAlert = true
                         let newClub = Club(
                             clubName: trimmedClubName,
                             clubTime: trimmedClubTime,
@@ -119,8 +127,14 @@ struct AddClubView: View {
                             members: [],
                             clubImage: imageData
                         )
-                        clubdata.append(newClub)
-                        dismiss()
+                        modelcontext.insert(newClub)
+                        do {
+                            try modelcontext.save()
+                            dismiss()
+                        } catch {
+                            alertMessage = "저장에 실패했습니다."
+                            showAlert = true
+                        }
                     } else {
                         alertMessage = "최대 인원은 1 이상의 숫자로 입력해주세요."
                         showAlert = true
@@ -179,5 +193,5 @@ struct AddClubView: View {
 }
 
 #Preview {
-    AddClubView(clubdata: .constant([]))
+    AddClubView()
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct challenge2App: App {
@@ -19,5 +20,6 @@ struct challenge2App: App {
                 ContentView()
             }
         }
+        .modelContainer(for: Club.self)
     }
 }
