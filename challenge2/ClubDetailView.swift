@@ -10,14 +10,14 @@ import SwiftData
 
 struct ClubDetailView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelcontext
+    
     @State private var resultMessage = ""
     @State private var showResultAlert = false
     @State private var showAlert = false
     @State private var showDeleteAlert = false
     @State private var alertMessage = ""
     @State private var alertDeleteMessage = ""
-    
-    @Environment(\.modelContext) private var modelcontext
     
     @AppStorage("currentUserName") private var currentUserName = ""
     

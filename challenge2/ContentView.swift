@@ -119,6 +119,7 @@ struct ContentView: View {
 
 //프리뷰를 위한 코드... 완성후 삭제
 @MainActor
+//private 빼고, App에서 넣으면 더미데이터로 시작함.
 private var previewContainer: ModelContainer = {
     let container = try! ModelContainer(
         for: Club.self,

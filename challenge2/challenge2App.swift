@@ -21,5 +21,7 @@ struct challenge2App: App {
             }
         }
         .modelContainer(for: Club.self)
+//        .modelContainer(previewContainer) /// 이거 더미데이터 넣어서 시연용. contentview 122line 수정.
+
     }
 }
